@@ -9,10 +9,12 @@ const token = "ahuBHejkJJiMDhmODZhZi0zNWRhLTQ4ZjItOGZhYi1jZWYzOTA07i73Gebhu98";
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 function authenticator(req, res, next) {
   const { authorization } = req.headers;
+  console.log(req.headers);
+  // console.log(JSON.stringify(req.headers.headers));
   if (authorization === token) {
     next();
   } else {
@@ -24,9 +26,11 @@ app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
   if (username === "lambda" && password === "school") {
     req.loggedIn = true;
-    res.status(200).json({
-      payload: token
-    });
+    setTimeout(() => {
+      res.status(200).json({
+        payload: token,
+      });
+    }, 5 * 1000);
   } else {
     res
       .status(403)
